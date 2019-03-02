@@ -1,0 +1,140 @@
+<!DOCTYPE HTML> 
+<html>
+<body>
+<canvas id="canvas" width="1500" height="1500">
+Sorry
+</canvas>
+
+<script>
+// déclaration des variables
+
+
+
+ 
+var canvas = document.getElementById('canvas');
+  //if (canvas.getContext) {
+   var ctx = canvas.getContext('2d');
+// Position X du canvas
+ 	elemLeft = canvas.offsetLeft;
+    // Position Y du canvas
+   	elemTop = canvas.offsetTop;
+    //x,
+    //y;
+//n;
+	//ctx.translate(100,0); // translation optionnelle du canevas
+	//ctx.rotate(Math.PI/4); // rotation optionnelle du canevas
+	//ctx.scale(2,2);	//mise à l'échelle optionnelle du canevas	
+
+ctx.fillStyle = 'rgb(215,215,165)';	//Couleur optionnelle de remplissage
+//ctx.strokeStyle = "grey";	//Couleur optionnelle de contour
+
+//ctx.scale(0.75,0,75);
+var angle = Math.PI*3/4
+var k = 75 ;
+var a = 5*k;	//Décalage optionnel initial du canevas selon x
+var b = k/6;	//Décalage optionnel initial du canevas selon y
+ctx.translate(a,b);
+var R = k*6;
+var tableau1 = 	['Blue','Green','White','Yellow','Red','Brown','Black'];
+ctx.beginPath();
+//ctx.moveTo(100,300);
+ctx.ellipse(250, 440, 350, 525, angle, 3*Math.PI/8, 18 * Math.PI/8,false);
+ctx.bezierCurveTo(-200, 305, -150, 296, -100, 286);
+ctx.bezierCurveTo(-75, 283, -50, 281, -25, 280);
+ctx.bezierCurveTo(-25, 279, -10, 278, -5, 274);
+ctx.bezierCurveTo(-3, 269, 0, 262, -10, 253);
+ctx.bezierCurveTo(-15, 249, -20, 248, -25, 247);
+ctx.bezierCurveTo(-30, 246, -40, 244, -60, 242);
+ctx.bezierCurveTo(-90, 240, -120, 238, -150, 234);
+ctx.bezierCurveTo(-170, 228, -180, 220, -185, 212);
+ctx.bezierCurveTo(-188, 205, -190, 200, -188, 192);
+//ctx.lineTo(100, 300);
+//ctx.closePath();
+//ctx.stroke();
+ctx.fill();
+
+ctx.fillStyle = 'white';
+ctx.beginPath();
+ctx.moveTo(50,375); 
+ctx.arc(0, 375, 50, 0, 2*Math.PI, false);
+ctx.fill();
+
+	//Boucle
+	for(var n=0; n<7; n++) {
+	tx = R*Math.sin(angle*n/6)	// Valeur du décalage selon x
+	ty = R*(1-Math.cos(angle*n/6))	// Valeur du décalage selon y
+	d1 = (3-n)*(n-4)*2			// déformation pointe 1
+	d2 = (n-3)*4			// déformation pointe 2
+	d3 = (n-4)*n			// déformation pointe 3
+	d4 = (6-n)*n			// déformation pointe 4
+	d5 = (6-n)*(1-n)		// déformation creux 3
+	d6 = (6-n)*(0-n)*(n-4)		// déformation creux 1
+	d7 = (6-n)*(2-n)*(n-4)		// déformation creux 3
+	d8 = (0-n)*(2-n)*(6-n)*(n-1)/2		// déformation creux 2
+
+    		// Paint drawing
+    			ctx.beginPath();
+    			ctx.moveTo(tx+75, ty+40-d6);
+    			ctx.bezierCurveTo(tx+75, ty+37-d6,tx+ 70+d1, ty+25-d1,tx+ 50, ty+25+d1); 			// Pointe 1
+			ctx.bezierCurveTo(tx+37.5, ty-d1, tx+37.5-2*d8, ty+37.5,tx+ 37.5, ty+37.5); //Arrivée 37.5 37.5
+    		ctx.bezierCurveTo(tx+37.5, ty+57.5, tx+49.5, ty+62.5, tx+52.5-2*d8, ty+62.5); //Arrivée 52.5 62.5
+			ctx.bezierCurveTo(tx+49.5-d8, ty+62.5, tx+37.5, ty+67.5, tx+37.5, ty+87.5); //Arrivée 37.5 87.5
+    			ctx.bezierCurveTo(tx+37.5, ty+87.5+d2, tx+37.5+d2, ty+100, tx+50+d2-d4, ty+100) 		//Pointe 2
+		ctx.bezierCurveTo(tx+70, ty+100-d5,tx+ 75, ty+88-d5,tx+ 75, ty+85-2*d5);
+    			ctx.bezierCurveTo(tx+75, ty+88+d4-d5,tx+ 85-d3, ty+100-d5, tx+100-d3, ty+100+d4);			//Pointe 3
+			ctx.bezierCurveTo(tx+112.5-d3-d7, ty+100, tx+112.5, ty+87.5, tx+112.5, ty+87.5); //Arrivée 112.5 87.5
+    		ctx.bezierCurveTo(tx+109.5, ty+67.5, tx+97.5, ty+62.5, tx+97.5-d7, ty+62.5); //Arrivée 97.5 62.5
+			ctx.bezierCurveTo(tx+97.5+d4-d7, ty+62.5, tx+109.5-d4/2, ty+57.5, tx+112.5-d4/2, ty+37.5); //Arrivée 112.5 37.5
+    			ctx.bezierCurveTo(tx+112.5, ty+37.5+d4, tx+112.5, ty+25-d4, tx+100, ty+25-d4);		//Pointe 4
+    			ctx.bezierCurveTo(tx+85, ty+25, tx+75, ty+37-d6, tx+75, ty+40-d6);
+		ctx.fillStyle = tableau1[n];    		
+		ctx.fill();
+		text = tableau1[n]
+		//Legend
+		ctx.font = '20px serif';
+		ctx.fillText(text,tx-25, 55+ty);
+		if (text =='Brown'){	
+			ctx.fillStyle = 'violet';
+			ctx.fillText('/violet',tx+120, 55+ty)};
+  	}
+
+//Condition du clic
+// Add event listener for `click` events.
+canvas.addEventListener('click', function(event) {
+// Position X du click (Position X du click sur la page moins la position X du canvas)
+    x = event.pageX - elemLeft-a,
+    // Position Y du click (Position Y du click sur la page moins la position Y du canvas)
+    y = event.pageY - elemTop-b;
+
+
+      
+    console.log("click position on canvas", x, y); // Optionnel
+
+		//Boucle sur les colonnes
+		for(var n=0; n<7; n++) {     
+		text = tableau1[n]
+			if (x < 97.5+R*Math.sin(angle*n/6) &&  x > 52.5+R*Math.sin(angle*n/6) && y < 85+R*(1-Math.cos(angle*n/6)) && y > 40+R*(1-Math.cos(angle*n/6))) {
+       				if (text == "Blue"){document.location.href="https://twinspace.etwinning.net/77789/pages/page/535073"}
+				else if (text=="Red"){document.location.href="https://twinspace.etwinning.net/77789/pages/page/535077"}
+				else if (text=="Yellow"){document.location.href="https://twinspace.etwinning.net/77789/pages/page/535076"}
+				else if (text=="Green"){document.location.href="https://twinspace.etwinning.net/77789/pages/page/535075"}
+				else if (text=="Brown"){document.location.href="https://twinspace.etwinning.net/77789/pages/page/535081"}
+				else if (text=="White"){document.location.href="https://twinspace.etwinning.net/77789/pages/page/535078"}
+				else if (text=="Black"){document.location.href="https://twinspace.etwinning.net/77789/pages/page/535080"}
+								else alert("This element is not essential in a pigment");
+		
+			}
+		}       
+ 	             
+ 
+}, false); 
+
+
+// }
+ 	             
+
+
+
+</script>
+</body>
+</html>
